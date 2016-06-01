@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/esa-vertx-crud.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/esa-vertx-crud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/esa-vertx-webapi.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/esa-vertx-webapi.iml" />
+    </modules>
+  </component>
+</project>

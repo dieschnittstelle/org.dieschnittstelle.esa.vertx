@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.vertx:vertx-apex:3.0.0-milestone5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/vertx/vertx-apex/3.0.0-milestone5/vertx-apex-3.0.0-milestone5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/vertx/vertx-apex/3.0.0-milestone5/vertx-apex-3.0.0-milestone5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/vertx/vertx-apex/3.0.0-milestone5/vertx-apex-3.0.0-milestone5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
