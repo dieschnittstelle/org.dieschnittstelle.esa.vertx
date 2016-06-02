@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/pom.xml" />
+        <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.webapi.client/pom.xml" />
+        <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/pom.xml" />
       </list>
     </option>
   </component>

@@ -27,7 +27,7 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
     }
 
 
-    public void create(T entity, Future<T> callback) {
+    public void create(T entity, Future<CRUDResult<T>> callback) {
 
         logger.info("create(): " + entity + "/" + callback);
 
@@ -36,62 +36,56 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                logger.info("create(): " + result + "/" + result.result());
-                //Long entityId = result.result().body().getEntityId();
-                callback.complete((T)/*entityId*/ result.result().body());
+                callback.complete(result.result().body());
             }
         });
 
     }
 
-    public void read(Class<T> entityclass, long entityid, Future<T> callback) {
+    public void read(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback) {
 
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.READ,entityclass,entityid);
 
         vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                T read = result.result().body().getEntity();
-                callback.complete(read);
+                callback.complete(result.result().body());
             }
         });
 
     }
 
-    public void readAll(Class<T> entityclass, Future<List<T>> callback) {
+    public void readAll(Class<T> entityclass, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.READALL,entityclass);
 
         vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                List<T> readall = result.result().body().getEntityList();
-                callback.complete(readall);
+                callback.complete(result.result().body());
             }
         });
 
     }
 
-    public void update(long entityid, T entitydata, Future<Integer> callback) {
+    public void update(long entityid, T entitydata, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.UPDATE,entityid,entitydata);
 
         vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                int rowsChanged = result.result().body().getRowsChanged();
-                callback.complete(rowsChanged);
+                callback.complete(result.result().body());
             }
         });
 
     }
 
-    public void delete(Class<T> entityclass, long entityid, Future<Integer> callback) {
+    public void delete(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.DELETE,entityclass,entityid);
 
         vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                int rowsChanged = result.result().body().getRowsChanged();
-                callback.complete(rowsChanged);
+                callback.complete(result.result().body());
             }
         });
 

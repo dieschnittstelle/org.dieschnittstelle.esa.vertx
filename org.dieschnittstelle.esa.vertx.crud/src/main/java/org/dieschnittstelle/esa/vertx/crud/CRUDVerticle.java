@@ -61,7 +61,7 @@ public class CRUDVerticle<T> extends AbstractVerticle {
                 Future<Object> future = Future.future();
                 future.setHandler(objectAsyncResult -> {
                     CRUDResult<T> result =  (CRUDResult<T>)objectAsyncResult.result();
-                    logger.info("got result: " + result);
+                    logger.info("handle(): got result: " + result);
                     message.reply(result);
                 });
 
@@ -127,6 +127,9 @@ public class CRUDVerticle<T> extends AbstractVerticle {
                 throw new RuntimeException(e);
             }
         }, res -> {
+            if (res.failed()) {
+                res.cause().printStackTrace();
+            }
             T result = res.result();
             logger.info("read(): got result: " + result);
             fut.complete(new CRUDResult<T>(result));

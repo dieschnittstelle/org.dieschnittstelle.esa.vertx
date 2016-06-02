@@ -13,6 +13,7 @@
             <groupId>org.dieschnittstelle.jee.esa.shared</groupId>
             <artifactId>lib-entities-crm</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>

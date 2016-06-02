@@ -2,6 +2,7 @@ package org.dieschnittstelle.esa.vertx.webapi;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -75,6 +76,13 @@ public class CRUDServiceVerticle extends AbstractVerticle {
         router.put(BASE_API_PATH + "/:" + PARAM_ENTITYCLASS + "/:" + PARAM_ENTITYID).handler(this::update);
         router.delete(BASE_API_PATH + "/:" + PARAM_ENTITYCLASS + "/:" + PARAM_ENTITYID).handler(this::delete);
 
+//        router.route("/").handler(routingContext -> {
+//            HttpServerResponse response = routingContext.response();
+//            response
+//                    .putHeader("content-type", "text/html")
+//                    .end("<h1>Hello from Vertx Webapi Impl</h1>");
+//        });
+
     }
 
 
@@ -94,11 +102,9 @@ public class CRUDServiceVerticle extends AbstractVerticle {
 
         Future<Object> callback = Future.future();
         callback.setHandler(asyncResult -> {
-            Object created = asyncResult.result();
-            logger.info("got created entity: " + created);
-            // create a crud result, using the long value and serialise it as json object
-            CRUDResult result = new CRUDResult(created);
-            routingContext.response().putHeader("content-type", "application/json; charset=utf-8").setStatusCode(201).end(Json.encodePrettily(result));
+            Object crudresult = asyncResult.result();
+            logger.info("create(): got result: " + crudresult);
+            routingContext.response().putHeader("content-type", "application/json; charset=utf-8").setStatusCode(201).end(Json.encodePrettily(crudresult));
         });
         crudClient.create(entity,callback);
     }
@@ -111,10 +117,10 @@ public class CRUDServiceVerticle extends AbstractVerticle {
 
         Future<Object> callback = Future.future();
         callback.setHandler(asyncResult -> {
-            Object entity = asyncResult.result();
+            Object crudresult = asyncResult.result();
+            logger.info("read(): got result: " + crudresult);
             // create a crud result, using the long value and serialise it as json object
-            CRUDResult result = new CRUDResult(entity);
-            routingContext.response().putHeader("content-type", "application/json; charset=utf-8").setStatusCode(200).end(Json.encodePrettily(result));
+            routingContext.response().putHeader("content-type", "application/json; charset=utf-8").setStatusCode(200).end(Json.encodePrettily(crudresult));
         });
 
         crudClient.read(classMap.get(entityclass),Long.parseLong(entityid),callback);
