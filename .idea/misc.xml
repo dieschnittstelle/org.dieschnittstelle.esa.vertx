@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.webapi.client/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/pom.xml" />
+        <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.rpc/pom.xml" />
       </list>
     </option>
   </component>

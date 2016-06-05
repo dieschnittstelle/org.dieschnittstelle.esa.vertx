@@ -45,11 +45,19 @@
         <processorPath useClasspath="true" />
         <module name="esa-webapi-client" />
       </profile>
+      <profile default="false" name="Annotation profile for esa-vertx-rpc" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="esa-vertx-rpc" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="esa-vertx-crud" target="1.8" />
       <module name="esa-vertx-deploy" target="1.5" />
       <module name="esa-vertx-main" target="1.8" />
+      <module name="esa-vertx-rpc" target="1.8" />
       <module name="esa-vertx-webapi" target="1.8" />
       <module name="esa-webapi-client" target="1.8" />
     </bytecodeTargetLevel>

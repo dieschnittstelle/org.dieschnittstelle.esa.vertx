@@ -26,6 +26,7 @@ public class CRUDVerticle<T> extends AbstractVerticle {
 
         logger.info("start(): registering codecs...");
 
+        // TODO: registration could be done outside in some main verticle, but would then need to be called by the test cases
         vertx.eventBus().registerDefaultCodec(CRUDRequest.class,new POJOMessageCodec(CRUDRequest.class));
         vertx.eventBus().registerDefaultCodec(CRUDResult.class,new POJOMessageCodec(CRUDResult.class));
 

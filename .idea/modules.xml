@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/esa-vertx-crud.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/esa-vertx-crud.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/esa-vertx-deploy.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/esa-vertx-deploy.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.rpc/esa-vertx-rpc.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.rpc/esa-vertx-rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/esa-vertx-webapi.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.webapi/esa-vertx-webapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.webapi.client/esa-webapi-client.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.webapi.client/esa-webapi-client.iml" />
     </modules>
