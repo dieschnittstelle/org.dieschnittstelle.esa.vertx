@@ -1,8 +1,7 @@
 package org.dieschnittstelle.esa.webapi.client;
 
+import org.dieschnittstelle.esa.vertx.crud.api.CRUDResult;
 import retrofit.http.*;
-
-import java.util.List;
 
 /**
  * Created by master on 01.06.16.

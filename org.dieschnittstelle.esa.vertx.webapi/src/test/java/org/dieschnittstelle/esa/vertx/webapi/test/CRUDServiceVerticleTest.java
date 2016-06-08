@@ -4,8 +4,8 @@ import io.vertx.core.Vertx;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 import org.apache.log4j.Logger;
+import org.dieschnittstelle.esa.vertx.crud.jpa.CRUDVerticleHibernate;
 import org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint;
-import org.dieschnittstelle.esa.vertx.crud.CRUDVerticle;
 import org.dieschnittstelle.esa.vertx.webapi.CRUDServiceVerticle;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class CRUDServiceVerticleTest {
         serviceVerticle.addClassMapping("touchpoints", StationaryTouchpoint.class);
 
         vertx.deployVerticle(serviceVerticle,stringAsyncResult -> {
-            vertx.deployVerticle(CRUDVerticle.class.getName(),stringAsyncResult1 -> {}
+            vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), stringAsyncResult1 -> {}
                     /*context.asyncAssertSuccess()*/);
         });
     }

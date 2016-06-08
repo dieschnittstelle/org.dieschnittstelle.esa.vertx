@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>org.dieschnittstelle.esa.vertx</groupId>
-            <artifactId>esa-vertx-crud</artifactId>
+            <artifactId>esa-vertx-crud-jpa</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

@@ -2,15 +2,13 @@ package org.dieschnittstelle.esa.vertx.webapi;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import org.apache.log4j.Logger;
-import org.dieschnittstelle.esa.vertx.crud.AsyncCRUDClient;
-import org.dieschnittstelle.esa.vertx.crud.CRUDResult;
-import org.dieschnittstelle.esa.vertx.crud.VerticleCRUDClient;
+import org.dieschnittstelle.esa.vertx.crud.api.AsyncCRUDClient;
+import org.dieschnittstelle.esa.vertx.crud.api.VerticleCRUDClient;
 
 import java.util.HashMap;
 import java.util.Map;

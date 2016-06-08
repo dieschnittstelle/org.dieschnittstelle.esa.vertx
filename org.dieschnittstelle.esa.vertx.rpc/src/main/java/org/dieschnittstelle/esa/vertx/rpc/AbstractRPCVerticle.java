@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.eventbus.Message;
 import org.apache.log4j.Logger;
-import org.dieschnittstelle.esa.vertx.crud.POJOMessageCodec;
+import org.dieschnittstelle.esa.vertx.crud.api.POJOMessageCodec;
 
 import java.util.Arrays;
 
