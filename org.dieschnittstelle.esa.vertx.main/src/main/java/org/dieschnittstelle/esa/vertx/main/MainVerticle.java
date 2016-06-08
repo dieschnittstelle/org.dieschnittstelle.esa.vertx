@@ -6,6 +6,8 @@ import io.vertx.core.Vertx;
 import org.dieschnittstelle.esa.vertx.crud.api.CRUDRequest;
 import org.dieschnittstelle.esa.vertx.crud.api.CRUDResult;
 import org.dieschnittstelle.esa.vertx.crud.api.POJOMessageCodec;
+import org.dieschnittstelle.esa.vertx.crud.mongod.CRUDVerticleMongod;
+import org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc;
 import org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint;
 import org.dieschnittstelle.esa.vertx.crud.jpa.CRUDVerticleHibernate;
 import org.dieschnittstelle.esa.vertx.webapi.CRUDServiceVerticle;
@@ -29,15 +31,17 @@ public class MainVerticle extends AbstractVerticle {
         vertx.eventBus().registerDefaultCodec(CRUDResult.class,new POJOMessageCodec(CRUDResult.class));
 
         CRUDServiceVerticle serviceVerticle = new CRUDServiceVerticle();
-        serviceVerticle.addClassMapping("touchpoints", StationaryTouchpoint.class);
+        serviceVerticle.addClassMapping("touchpoints", StationaryTouchpointDoc.class);
 
         vertx.deployVerticle(serviceVerticle, stringAsyncResult -> {
             logger.info("start(): deployed CRUDServiceVerticle");
             vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), stringAsyncResult1 -> {
                 logger.info("start(): deployed CRUDVerticleHibernate");
-                logger.info("start(): done.");
-
-                fut.complete();
+                vertx.deployVerticle(CRUDVerticleMongod.class.getName(), stringAsyncResult2 -> {
+                    logger.info("start(): deployed CRUDVerticleMongod");
+                    logger.info("start(): done.");
+                    fut.complete();
+                });
             });
         });
     }

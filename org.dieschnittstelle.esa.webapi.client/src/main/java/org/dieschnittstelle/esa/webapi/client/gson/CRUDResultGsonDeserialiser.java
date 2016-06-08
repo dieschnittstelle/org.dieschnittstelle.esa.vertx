@@ -2,7 +2,7 @@ package org.dieschnittstelle.esa.webapi.client.gson;
 
 import com.google.gson.*;
 import org.apache.log4j.Logger;
-import org.dieschnittstelle.esa.webapi.client.CRUDResult;
+import org.dieschnittstelle.esa.vertx.crud.api.CRUDResult;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

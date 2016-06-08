@@ -1,6 +1,7 @@
 package org.dieschnittstelle.esa.webapi.client;
 
 import com.google.gson.GsonBuilder;
+import org.dieschnittstelle.esa.vertx.crud.api.CRUDResult;
 import org.dieschnittstelle.esa.webapi.client.gson.CRUDResultGsonDeserialiser;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;

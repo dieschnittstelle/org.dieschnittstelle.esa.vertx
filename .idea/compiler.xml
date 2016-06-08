@@ -77,6 +77,13 @@
         <processorPath useClasspath="true" />
         <module name="esa-vertx-crud-mongod" />
       </profile>
+      <profile default="false" name="Annotation profile for esa-vertx-crud-testentities" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="esa-vertx-crud-testentities" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="esa-vertx-crud" target="1.8" />
@@ -84,6 +91,7 @@
       <module name="esa-vertx-crud-jpa" target="1.8" />
       <module name="esa-vertx-crud-mdb" target="1.8" />
       <module name="esa-vertx-crud-mongod" target="1.8" />
+      <module name="esa-vertx-crud-testentities" target="1.8" />
       <module name="esa-vertx-deploy" target="1.5" />
       <module name="esa-vertx-main" target="1.8" />
       <module name="esa-vertx-rpc" target="1.8" />

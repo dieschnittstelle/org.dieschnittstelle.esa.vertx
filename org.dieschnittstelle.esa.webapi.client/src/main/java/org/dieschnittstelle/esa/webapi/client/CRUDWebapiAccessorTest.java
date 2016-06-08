@@ -1,6 +1,7 @@
 package org.dieschnittstelle.esa.webapi.client;
 
 import org.apache.log4j.Logger;
+import org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc;
 import org.dieschnittstelle.jee.esa.entities.crm.Address;
 import org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint;
 
@@ -97,9 +98,9 @@ public class CRUDWebapiAccessorTest {
             long startTime = System.currentTimeMillis();
 
             while ((System.currentTimeMillis() - startTime) < duration) {
-                StationaryTouchpoint tp = new StationaryTouchpoint(-1, "dorem", new Address("lipsum", "-42", "olor", "adispiscing"));
+                StationaryTouchpointDoc tp = new StationaryTouchpointDoc(-1, "dorem", new Address("lipsum", "-42", "olor", "adispiscing"));
 
-                CRUDWebapiAccessor<StationaryTouchpoint> accessor = new CRUDWebapiAccessor<StationaryTouchpoint>("touchpoints", StationaryTouchpoint.class, baseUrl);
+                CRUDWebapiAccessor<StationaryTouchpointDoc> accessor = new CRUDWebapiAccessor<StationaryTouchpointDoc>("touchpoints", StationaryTouchpointDoc.class, baseUrl);
 
 //                logger.info("create tp: " + tp);
 
@@ -110,7 +111,7 @@ public class CRUDWebapiAccessorTest {
 //
 //                logger.info("got id: " + tp.getId());
 
-                tp = accessor.read(tp.getId());
+//                tp = accessor.read(tp.getId());
 
 //                logger.info("read tp: " + tp);
 

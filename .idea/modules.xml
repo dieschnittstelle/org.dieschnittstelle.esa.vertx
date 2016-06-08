@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.api/esa-vertx-crud-api.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.api/esa-vertx-crud-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.jpa/esa-vertx-crud-jpa.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.jpa/esa-vertx-crud-jpa.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.mongod/esa-vertx-crud-mongod.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.mongod/esa-vertx-crud-mongod.iml" />
+      <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.testentities/esa-vertx-crud-testentities.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.testentities/esa-vertx-crud-testentities.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/esa-vertx-deploy.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.deploy/esa-vertx-deploy.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.main/esa-vertx-main.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.rpc/esa-vertx-rpc.iml" filepath="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.rpc/esa-vertx-rpc.iml" />
