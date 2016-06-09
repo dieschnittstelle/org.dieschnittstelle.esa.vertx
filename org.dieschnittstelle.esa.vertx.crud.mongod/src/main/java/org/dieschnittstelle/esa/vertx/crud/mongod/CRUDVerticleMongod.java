@@ -32,7 +32,24 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
 
     public void start(Future<Void> fut) {
         logger.info("start()");
-        client = MongoClient.createShared(vertx, new JsonObject());
+
+        String connectionUrl = "mongodb://%s:27017";
+        String ipAddress = System.getenv("MONGODB_PORT_27017_TCP_ADDR");
+        logger.info("start(): read ipAddress from environment variables: " + ipAddress);
+        if (ipAddress == null || "".equals(ipAddress.trim())) {
+            ipAddress = "localhost";
+            logger.info("start(): default ipAddress to: " + ipAddress);
+        }
+        connectionUrl = String.format(connectionUrl,ipAddress);
+        logger.info("using connectionUrl: " + connectionUrl);
+
+        JsonObject config = new JsonObject()
+                        .put("http.port", 28017)
+                        .put("db_name", "crm_erp_db")
+                        .put("connection_string",
+                                connectionUrl);
+
+        client = MongoClient.createShared(vertx, config);
         marshaller = new EntityMarshaller(new JsonObjectEntityMarshallerDelegate());
 
         registerHandlers();
