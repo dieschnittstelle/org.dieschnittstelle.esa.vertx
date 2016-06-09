@@ -59,6 +59,7 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
         };
 
         vertx.eventBus().consumer(CRUDRequest.class.getName(), myHandler);
+        vertx.eventBus().consumer(CRUDRequest.class.getName()+"."+CRUDVerticleMongod.class.getSimpleName(), myHandler);
 
         logger.info("registered handler");
 

@@ -72,6 +72,7 @@ public class CRUDVerticleHibernate<T> extends AbstractVerticle {
         };
 
         vertx.eventBus().consumer(CRUDRequest.class.getName(),myHandler);
+        vertx.eventBus().consumer(CRUDRequest.class.getName()+"."+CRUDVerticleHibernate.class.getSimpleName(),myHandler);
 
         logger.info("registered handler");
 

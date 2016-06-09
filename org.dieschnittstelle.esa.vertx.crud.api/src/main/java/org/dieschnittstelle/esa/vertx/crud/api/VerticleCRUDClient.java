@@ -20,12 +20,7 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
     private boolean broadcast;
 
     // if we want to address a particular verticle we can specify this attribute which will be added to the message id
-    private String addressee;
-
-    public VerticleCRUDClient(boolean broadcast) {
-        this.vertx = Vertx.vertx();
-        this.broadcast = broadcast;
-    }
+    private String crudprovider;
 
     public VerticleCRUDClient() {
         this.vertx = Vertx.vertx();
@@ -33,11 +28,6 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
 
     public VerticleCRUDClient(Vertx vertx) {
         this.vertx = vertx;
-    }
-
-    public VerticleCRUDClient(Vertx vertx,boolean broadcast) {
-        this.vertx = vertx;
-        this.broadcast = broadcast;
     }
 
     public void create(T entity, Future<CRUDResult<T>> callback) {
@@ -71,6 +61,8 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
      */
 
     private void sendRequest(CRUDRequest<T> request, Future<CRUDResult<T>> callback) {
+        logger.info("sendRequest(): crudprovider is: " + crudprovider);
+
         vertx.eventBus().send(getMessageAddressee(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
@@ -80,6 +72,9 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
     }
 
     private void sendOrPublishRequest(CRUDRequest<T> request, Future<CRUDResult<T>> callback) {
+        logger.info("sendRequest(): crudprovider is: " + crudprovider);
+        logger.info("sendRequest(): broadcast is: " + broadcast);
+
         if (broadcast) {
             vertx.eventBus().publish(CRUDRequest.class.getName(),request);
             callback.complete();
@@ -90,16 +85,23 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
     }
 
 
-    public void setAddressee(String addressee) {
-        this.addressee = addressee;
+    public void setCrudprovider(String crudprovider) {
+        this.crudprovider = crudprovider;
     }
 
-    public String getAddressee() {
-        return this.addressee;
+    @Override
+    public void setBroadcast(boolean broadcast) {
+        this.broadcast = broadcast;
+    }
+
+    public String getCrudprovider() {
+        return this.crudprovider;
     }
 
     private String getMessageAddressee() {
-        return CRUDRequest.class.getName() + (addressee != null && "".equals(addressee) ? ("." + addressee) : "");
+        String addressee = CRUDRequest.class.getName() + (crudprovider != null && !"".equals(crudprovider) ? ("." + crudprovider) : "");
+        logger.info("messageAddressee: " + addressee);
+        return addressee;
     }
 
 }

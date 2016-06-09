@@ -26,6 +26,8 @@ public class CRUDServiceVerticle extends AbstractVerticle {
     private static final String BASE_API_PATH = "/api";
     private static final String PARAM_ENTITYCLASS = "entityclass";
     private static final String PARAM_ENTITYID = "id";
+    private static final String PARAM_CRUDPROVIDER = "crudprovider";
+    private static final String PARAM_BROADCAST = "broadcast";
 
     protected static Logger logger = Logger.getLogger(CRUDServiceVerticle.class);
 
@@ -90,6 +92,7 @@ public class CRUDServiceVerticle extends AbstractVerticle {
     public void create(RoutingContext routingContext) {
         String entityclass = routingContext.request().getParam(PARAM_ENTITYCLASS);
         logger.info("create(): class: " + entityclass);
+        prepareClient(routingContext);
 
         String body = routingContext.getBodyAsString();
 
@@ -148,6 +151,27 @@ public class CRUDServiceVerticle extends AbstractVerticle {
 
         routingContext.response().setStatusCode(405).end();
     }
+
+    private void prepareClient(RoutingContext ctx) {
+        String crudprovider = ctx.request().getParam(PARAM_CRUDPROVIDER);
+        String broadcast = ctx.request().getParam(PARAM_BROADCAST);
+        logger.info("crudprovider: " + crudprovider);
+        logger.info("broadcast: " + broadcast);
+
+        if (crudprovider != null && !"".equals(crudprovider.trim())) {
+            crudClient.setCrudprovider(crudprovider);
+        }
+        else {
+            crudClient.setCrudprovider(null);
+        }
+        if (broadcast != null && !"".equals(broadcast.trim())) {
+            crudClient.setBroadcast(Boolean.parseBoolean(broadcast));
+        }
+        else {
+            crudClient.setBroadcast(false);
+        }
+    }
+
 
     public void addClassMapping(String classname,Class klass) {
         this.classMap.put(classname,klass);

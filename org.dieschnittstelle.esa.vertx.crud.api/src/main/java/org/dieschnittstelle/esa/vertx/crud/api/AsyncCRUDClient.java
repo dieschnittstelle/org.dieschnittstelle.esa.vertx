@@ -17,4 +17,8 @@ public interface AsyncCRUDClient<T> {
 
     public void delete(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback);
 
+    public void setCrudprovider(String addressee);
+
+    public void setBroadcast(boolean broadcast);
+
 }
