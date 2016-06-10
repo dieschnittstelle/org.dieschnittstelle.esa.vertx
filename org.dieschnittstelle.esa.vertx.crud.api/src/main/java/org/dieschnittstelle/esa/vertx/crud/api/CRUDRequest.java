@@ -34,7 +34,13 @@ public class CRUDRequest<T> {
 
     public CRUDRequest(Operation operation,String entityId,T entity) {
         this(operation,entity);
-        this.entityIdString = entityId;
+        Object parsedid = parseEntityid(entityId);
+        if (parsedid instanceof String) {
+            this.entityIdString = (String)parsedid;
+        }
+        else {
+            this.entityId = (long)parsedid;
+        }
     }
 
     public CRUDRequest(Operation operation,long entityId) {
@@ -44,7 +50,13 @@ public class CRUDRequest<T> {
 
     public CRUDRequest(Operation operation,String entityId) {
         this.operation = operation;
-        this.entityIdString = entityId;
+        Object parsedid = parseEntityid(entityId);
+        if (parsedid instanceof String) {
+            this.entityIdString = (String)parsedid;
+        }
+        else {
+            this.entityId = (long)parsedid;
+        }
     }
 
     public CRUDRequest(Operation operation,Class<T> entityClass) {
@@ -60,8 +72,23 @@ public class CRUDRequest<T> {
 
     public CRUDRequest(Operation operation,Class<T> entityClass,String entityId) {
         this.operation = operation;
-        this.entityIdString = entityId;
         this.entityClass = entityClass;
+        Object parsedid = parseEntityid(entityId);
+        if (parsedid instanceof String) {
+            this.entityIdString = (String)parsedid;
+        }
+        else {
+            this.entityId = (long)parsedid;
+        }
+    }
+
+    private Object parseEntityid(String entityid) {
+        try {
+            return Long.parseLong(entityid);
+        }
+        catch (NumberFormatException nfe) {
+            return entityid;
+        }
     }
 
     public CRUDRequest(Operation operation) {

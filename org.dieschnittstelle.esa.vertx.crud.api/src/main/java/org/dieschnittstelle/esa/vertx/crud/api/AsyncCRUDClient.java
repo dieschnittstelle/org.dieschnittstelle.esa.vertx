@@ -9,13 +9,13 @@ public interface AsyncCRUDClient<T> {
 
     public void create(T entity, Future<CRUDResult<T>> callback);
 
-    public void read(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback);
+    public void read(Class<T> entityclass, String entityid, Future<CRUDResult<T>> callback);
 
     public void readAll(Class<T> entityclass, Future<CRUDResult<T>> callback);
 
-    public void update(long entityid, T entitydata, Future<CRUDResult<T>> callback);
+    public void update(String entityid, T entitydata, Future<CRUDResult<T>> callback);
 
-    public void delete(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback);
+    public void delete(Class<T> entityclass, String entityid, Future<CRUDResult<T>> callback);
 
     public void setCrudprovider(String addressee);
 

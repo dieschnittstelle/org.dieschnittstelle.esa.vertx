@@ -36,7 +36,7 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         sendOrPublishRequest(request,callback);
     }
 
-    public void read(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback) {
+    public void read(Class<T> entityclass, String entityid, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.READ,entityclass,entityid);
         sendRequest(request,callback);
     }
@@ -46,12 +46,12 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         sendRequest(request,callback);
     }
 
-    public void update(long entityid, T entitydata, Future<CRUDResult<T>> callback) {
+    public void update(String entityid, T entitydata, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.UPDATE,entityid,entitydata);
         sendOrPublishRequest(request,callback);
     }
 
-    public void delete(Class<T> entityclass, long entityid, Future<CRUDResult<T>> callback) {
+    public void delete(Class<T> entityclass, String entityid, Future<CRUDResult<T>> callback) {
         CRUDRequest<T> request = new CRUDRequest<T>(CRUDRequest.Operation.DELETE,entityclass,entityid);
         sendOrPublishRequest(request,callback);
     }
@@ -83,7 +83,6 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
             sendRequest(request,callback);
         }
     }
-
 
     public void setCrudprovider(String crudprovider) {
         this.crudprovider = crudprovider;

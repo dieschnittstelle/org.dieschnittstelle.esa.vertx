@@ -124,7 +124,7 @@ public class CRUDServiceVerticle extends AbstractVerticle {
             routingContext.response().putHeader("content-type", "application/json; charset=utf-8").setStatusCode(200).end(Json.encodePrettily(crudresult));
         });
 
-        crudClient.read(classMap.get(entityclass),Long.parseLong(entityid),callback);
+        crudClient.read(classMap.get(entityclass),entityid,callback);
     }
 
     public void readAll(RoutingContext routingContext) {
