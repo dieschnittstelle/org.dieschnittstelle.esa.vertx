@@ -9,18 +9,18 @@ import retrofit.http.*;
 public interface CRUDWebapi<T> {
 
     @POST("/{entitytype}")
-    public CRUDResult<T> create(@Path("entitytype") String entitytype, @Body T entity);
+    public CRUDResult<T> create(@Path("entitytype") String entitytype, @Body T entity,@Query("crudprovider") String crudprovider,@Query("broadcast") boolean broadcast);
 
     @GET("/{entitytype}/{entityid}")
-    public CRUDResult<T> read(@Path("entitytype") String entitytype,@Path("entityid") long entityid);
+    public CRUDResult<T> read(@Path("entitytype") String entitytype,@Path("entityid") long entityid,@Query("crudprovider") String crudprovider);
 
     @GET("/{entitytype}")
-    public CRUDResult<T> readall(@Path("entitytype") String entitytype);
+    public CRUDResult<T> readall(@Path("entitytype") String entitytype,@Query("crudprovider") String crudprovider);
 
     @PUT("/{entitytype}/{entityid}")
-    public CRUDResult<T> update(@Path("entitytype") String entitytype,@Path("entityid") long entityid, @Body T update);
+    public CRUDResult<T> update(@Path("entitytype") String entitytype,@Path("entityid") long entityid, @Body T update,@Query("crudprovider") String crudprovider);
 
     @DELETE("/{entitytype}/{entityid}")
-    public CRUDResult<T> delete(@Path("entitytype") String entitytype,@Path("entityid") long entityid);
+    public CRUDResult<T> delete(@Path("entitytype") String entitytype,@Path("entityid") long entityid,@Query("crudprovider") String crudprovider);
 
 }

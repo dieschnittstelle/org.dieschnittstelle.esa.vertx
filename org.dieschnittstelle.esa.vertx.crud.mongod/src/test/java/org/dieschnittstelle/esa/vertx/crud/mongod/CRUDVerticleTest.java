@@ -14,6 +14,9 @@ import org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -41,36 +44,67 @@ public class CRUDVerticleTest {
     @Test
     public void test() {
 
-        // create request
-        StationaryTouchpointDoc tp = new StationaryTouchpointDoc(-1,"dorem",new Address("lipsum","olor","-42","adispiscing"));
-        CRUDRequest<StationaryTouchpointDoc> request = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.CREATE,tp);
+        // readAll
+        CRUDRequest<StationaryTouchpointDoc> request = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.READALL,StationaryTouchpointDoc.class);
+        logger.info("sending readall CRUDRequest...");
+        vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpoint>>>() {
 
-        logger.info("sending CRUDRequest...");
-
-        vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpointDoc>>>() {
             @Override
-            public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpointDoc>>> result) {
-                StationaryTouchpointDoc created = result.result().body().getEntity();
-                logger.info("got created: " + created);
-                assertEquals(created.getName(),tp.getName());
+            public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpoint>>> result) {
+                List<StationaryTouchpoint> tps = result.result().body().getEntityList();
+                logger.info("got original touchpoints list: " + tps);
+                assertNotNull(tps);
 
-                // create a read request
-                CRUDRequest<StationaryTouchpointDoc> readRequest = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.READ,StationaryTouchpointDoc.class,created.get_id());
+                // remember the size for checking later whether the size will be incremented on create
+                int initialSize = tps.size();
 
-                vertx.eventBus().send(CRUDRequest.class.getName(), readRequest, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpoint>>>() {
+                // create request
+                StationaryTouchpointDoc tp = new StationaryTouchpointDoc(-1, "dorem", new Address("lipsum", "olor", "-42", "adispiscing"));
+                CRUDRequest<StationaryTouchpointDoc> request = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.CREATE, tp);
+
+                logger.info("sending create CRUDRequest...");
+
+                vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpointDoc>>>() {
                     @Override
-                    public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpoint>>> result) {
-                        StationaryTouchpoint read = result.result().body().getEntity();
-                        logger.info("got read: " + read);
-                        assertEquals(read.getName(),tp.getName());
+                    public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpointDoc>>> result) {
+                        StationaryTouchpointDoc created = result.result().body().getEntity();
+                        logger.info("got created: " + created);
+                        assertEquals(created.getName(), tp.getName());
+
+                        // create a read request
+                        CRUDRequest<StationaryTouchpointDoc> readRequest = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.READ, StationaryTouchpointDoc.class, created.get_id());
+
+                        vertx.eventBus().send(CRUDRequest.class.getName(), readRequest, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpointDoc>>>() {
+                            @Override
+                            public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpointDoc>>> result) {
+                                StationaryTouchpoint read = result.result().body().getEntity();
+                                logger.info("got read: " + read);
+                                assertEquals(read.getName(), tp.getName());
+
+                                // readAll again
+                                CRUDRequest<StationaryTouchpointDoc> request = new CRUDRequest<StationaryTouchpointDoc>(CRUDRequest.Operation.READALL,StationaryTouchpointDoc.class);
+                                logger.info("sending readall CRUDRequest...");
+                                vertx.eventBus().send(CRUDRequest.class.getName(), request, new AsyncResultHandler<Message<CRUDResult<StationaryTouchpointDoc>>>() {
+
+                                    @Override
+                                    public void handle(AsyncResult<Message<CRUDResult<StationaryTouchpointDoc>>> result) {
+                                        List<StationaryTouchpointDoc> tps = result.result().body().getEntityList();
+                                        logger.info("got new touchpoints list: " + tps);
+                                        assertNotNull(tps);
+                                        assertEquals(tps.size(),initialSize+1);
+                                    }
+                                });
+
+                            }
+                        });
+
                     }
                 });
-
             }
         });
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

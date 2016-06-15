@@ -33,23 +33,48 @@ public class CRUDWebapiAccessor<T> {
     }
 
     public T create(T entity) {
-        return webapi.create(entitypath,entity).getEntity();
+        return webapi.create(entitypath,entity,"",false).getEntity();
+    }
+
+    public T create(T entity,String provider) {
+        return webapi.create(entitypath,entity,provider,false).getEntity();
+    }
+
+    public T create(T entity,boolean broadcast) {
+        return webapi.create(entitypath,entity,"",broadcast).getEntity();
+    }
+
+    public T read(long entityid,String provider) {
+        return webapi.read(entitypath,entityid,provider).getEntity();
     }
 
     public T read(long entityid) {
-        return webapi.read(entitypath,entityid).getEntity();
+        return webapi.read(entitypath,entityid,"").getEntity();
+    }
+
+    public List<T> readAll(String provider) {
+        return webapi.readall(entitypath,provider).getEntityList();
     }
 
     public List<T> readAll() {
-        return webapi.readall(entitypath).getEntityList();
+        return webapi.readall(entitypath,"").getEntityList();
     }
 
     public boolean update(long entityid,T update) {
-        return webapi.update(entitypath,entityid,update).getRowsChanged() > 0;
+        return webapi.update(entitypath,entityid,update,"").getRowsChanged() > 0;
+    }
+
+    public boolean update(long entityid,T update,String provider) {
+        return webapi.update(entitypath,entityid,update,provider).getRowsChanged() > 0;
     }
 
     public boolean delete(long entityid) {
-        return webapi.delete(entitypath,entityid).getRowsChanged() > 0;
+        return webapi.delete(entitypath,entityid,"").getRowsChanged() > 0;
     }
+
+    public boolean delete(long entityid,String provider) {
+        return webapi.delete(entitypath,entityid,provider).getRowsChanged() > 0;
+    }
+
 
 }

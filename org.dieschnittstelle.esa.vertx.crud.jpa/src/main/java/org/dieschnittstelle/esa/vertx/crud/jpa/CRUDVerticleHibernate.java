@@ -12,6 +12,8 @@ import org.dieschnittstelle.esa.vertx.crud.api.CRUDRequest;
 import org.dieschnittstelle.esa.vertx.crud.api.CRUDResult;
 import org.dieschnittstelle.esa.vertx.crud.api.POJOMessageCodec;
 
+import java.util.List;
+
 /**
  * Created by master on 27.05.16.
  */
@@ -89,13 +91,25 @@ public class CRUDVerticleHibernate<T> extends AbstractVerticle {
             case READ:
                 read(request,fut);
                 break;
+            case READALL:
+                readAll(request,fut);
+                break;
             default:
                 logger.error("cannot handle CRUDRequest with operation " + request.getOperation() + ". Operation is not yet supported");
         }
     }
 
+    private int count;
+
+    private synchronized int incrementCount() {
+        return count++;
+    }
+
     private void create(CRUDRequest<T> request,Future<Object> fut) {
         logger.info("create(): " + request.getEntity() + ", service is: " + service);
+
+        int ccount = incrementCount();
+        System.out.println(System.currentTimeMillis() + ": " + this + "@" +  Thread.currentThread() + ": start create " + ccount);
 
         service.withinTransaction(em -> {
             logger.info("calling persist()");
@@ -107,6 +121,8 @@ public class CRUDVerticleHibernate<T> extends AbstractVerticle {
             }
             T result = res.result();
             logger.info("create(): got result: " + result);
+
+            System.out.println(System.currentTimeMillis() + ": " + this + "@" +  Thread.currentThread() + ": end create " + ccount);
             fut.complete(new CRUDResult<T>(res.result()));
         });
 
@@ -132,6 +148,30 @@ public class CRUDVerticleHibernate<T> extends AbstractVerticle {
                 res.cause().printStackTrace();
             }
             T result = res.result();
+            logger.info("read(): got result: " + result);
+            fut.complete(new CRUDResult<T>(result));
+        });
+    }
+
+    private void readAll(CRUDRequest<T> request,Future<Object> fut) {
+        logger.info("readAll(): " + request.getEntityClass());
+
+        service.withEntityManager(em -> {
+            logger.info("calling find()");
+            FindBy<T, Long> fb = null;
+            try {
+                fb = new FindBy<T, Long>(request.getEntityClass(), em);
+                List<T> result = (List<T>)fb.findAll();
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }, res -> {
+            if (res.failed()) {
+                res.cause().printStackTrace();
+            }
+            List<T> result = res.result();
             logger.info("read(): got result: " + result);
             fut.complete(new CRUDResult<T>(result));
         });

@@ -1,6 +1,7 @@
 package org.dieschnittstelle.esa.vertx.main;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import org.dieschnittstelle.esa.vertx.crud.api.CRUDRequest;
@@ -35,7 +36,7 @@ public class MainVerticle extends AbstractVerticle {
 
         vertx.deployVerticle(serviceVerticle, stringAsyncResult -> {
             logger.info("start(): deployed CRUDServiceVerticle");
-            vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), stringAsyncResult1 -> {
+            vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), new DeploymentOptions().setWorker(true), stringAsyncResult1 -> {
                 logger.info("start(): deployed CRUDVerticleHibernate");
                 vertx.deployVerticle(CRUDVerticleMongod.class.getName(), stringAsyncResult2 -> {
                     logger.info("start(): deployed CRUDVerticleMongod");

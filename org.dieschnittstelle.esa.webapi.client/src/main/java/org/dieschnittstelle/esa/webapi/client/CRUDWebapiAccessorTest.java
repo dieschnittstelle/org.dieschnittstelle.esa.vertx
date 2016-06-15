@@ -20,12 +20,14 @@ public class CRUDWebapiAccessorTest {
 
     private static long startTime;
 
+    private static String crudprovider = "CRUDVerticleHibernate";
+
     public static void main(String[] args) {
 
         // parameters and default values
         String baseUrl = /*"http://localhost:8080/api";*/"http://localhost:8080/org.dieschnittstelle.jee.esa.skeleton.webapp/api";
-        int numofThreads = 20;
-        long duration = 5000;
+        int numofThreads = 1;
+        long duration = 1000;
         long pause = 1;
         long startupPause = 1;
 
@@ -33,16 +35,19 @@ public class CRUDWebapiAccessorTest {
             baseUrl = args[0];
         }
         if (args.length > 1) {
-            numofThreads = Integer.parseInt(args[1]);
+            crudprovider = args[1];
         }
         if (args.length > 2) {
-            duration = Integer.parseInt(args[2]);
+            numofThreads = Integer.parseInt(args[2]);
         }
         if (args.length > 3) {
-            pause = Integer.parseInt(args[3]);
+            duration = Integer.parseInt(args[3]);
         }
         if (args.length > 4) {
-            startupPause = Integer.parseInt(args[4]);
+            pause = Integer.parseInt(args[4]);
+        }
+        if (args.length > 5) {
+            startupPause = Integer.parseInt(args[5]);
         }
 
         System.out.println("Running on " + baseUrl + " with parameters {numOfThreads: " + numofThreads + ", duration: " + duration + ", pause: " + pause + ", startupPause: " + startupPause + "}");
@@ -102,12 +107,12 @@ public class CRUDWebapiAccessorTest {
 
                 CRUDWebapiAccessor<StationaryTouchpointDoc> accessor = new CRUDWebapiAccessor<StationaryTouchpointDoc>("touchpoints", StationaryTouchpointDoc.class, baseUrl);
 
-//                logger.info("create tp: " + tp);
+                logger.info("create tp: " + tp);
 
-                tp = accessor.create(tp);
+                tp = accessor.create(tp,crudprovider);
 
 
-//                logger.info("created: " + tp);
+                logger.info("created: " + tp);
 //
 //                logger.info("got id: " + tp.getId());
 

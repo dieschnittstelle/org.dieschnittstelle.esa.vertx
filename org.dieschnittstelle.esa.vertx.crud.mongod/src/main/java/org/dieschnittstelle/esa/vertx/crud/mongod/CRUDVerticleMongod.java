@@ -1,5 +1,7 @@
 package org.dieschnittstelle.esa.vertx.crud.mongod;
 
+import java.util.ArrayList;
+import java.util.List;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -93,13 +95,35 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
             case READ:
                 read(request, fut);
                 break;
+            case READALL:
+                readAll(request, fut);
+                break;
             default:
                 logger.error("cannot handle CRUDRequest with operation " + request.getOperation() + ". Operation is not yet supported");
         }
     }
 
-    private void create(CRUDRequest<T> request, Future<Object> fut) {
+    private int count;
+
+    private synchronized int incrementCount() {
+        return count++;
+    }
+
+
+    private void create(CRUDRequest<T> request, Future<Object> fut)  {
         logger.debug("create(): " + request.getEntity() + ", client is: " + client);
+
+        int ccount = incrementCount();
+
+//        if (ccount % 50 == 0) {
+//            try {
+//                Thread.currentThread().sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        System.out.println(System.currentTimeMillis() + ": " + this + "@" +  Thread.currentThread() + ": start create " + ccount);
 
         try {
             T entity = request.getEntity();
@@ -112,7 +136,7 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
 
                 if (res.succeeded()) {
                     String id = res.result();
-                    System.out.println("create(): assigned id: " + id + ", obj is: " + obj + ", id on obj is: " + obj.getString("_id"));
+                    logger.info("create(): assigned id: " + id + ", obj is: " + obj + ", id on obj is: " + obj.getString("_id"));
 
                     try {
                         entity.getClass().getMethod("set_id", new Class[]{String.class}).invoke(entity, id);
@@ -123,6 +147,8 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     }
+                    System.out.println(System.currentTimeMillis() + ": " + this + "@" +  Thread.currentThread() + ": end create " + ccount);
+
                     fut.complete(new CRUDResult(entity));
 
                 } else {
@@ -139,6 +165,7 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
     }
 
     private void read(CRUDRequest<T> request, Future<Object> fut) {
+        logger.info("read(): " + request.getEntityClass().getName());
         logger.info("read(): " + request.getEntityIdString());
         JsonObject query = new JsonObject();
         query.put("_id",request.getEntityIdString());
@@ -147,8 +174,42 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
 
             if (res.succeeded()) {
                 JsonObject obj = res.result();
-                logger.debug("read obj for id " + request.getEntityIdString() + ": " + obj);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("read obj for id " + request.getEntityIdString() + ": " + obj);
+                }
                 fut.complete(new CRUDResult<T>(Json.decodeValue(obj.encode(),request.getEntityClass())));
+            } else {
+
+                res.cause().printStackTrace();
+
+            }
+
+        });
+
+    }
+
+    private void readAll(CRUDRequest<T> request, Future<Object> fut) {
+        logger.info("readAll(): " + request.getEntityClass().getName());
+        JsonObject query = new JsonObject();
+
+        client.find(request.getEntityClass().getName(), query, res -> {
+
+            if (res.succeeded()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("readAll(): got json: " + res.result());
+                }
+
+                List<T> objs = new ArrayList<T>();
+                if (logger.isDebugEnabled()) {
+                    logger.debug("readAll(): result is: " + res.result());
+                }
+                for (JsonObject json : res.result()) {
+                    objs.add(Json.decodeValue(json.encode(),request.getEntityClass()));
+                }
+                if (logger.isDebugEnabled()) {
+                    logger.debug("readAll(): objs: " + objs);
+                }
+                fut.complete(new CRUDResult<T>(objs));
             } else {
 
                 res.cause().printStackTrace();
