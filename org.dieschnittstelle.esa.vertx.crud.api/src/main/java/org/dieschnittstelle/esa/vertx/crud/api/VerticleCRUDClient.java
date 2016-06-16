@@ -1,11 +1,21 @@
 package org.dieschnittstelle.esa.vertx.crud.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by master on 31.05.16.
@@ -66,7 +76,7 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         vertx.eventBus().send(getMessageAddressee(), request, new AsyncResultHandler<Message<CRUDResult<T>>>() {
             @Override
             public void handle(AsyncResult<Message<CRUDResult<T>>> result) {
-                callback.complete(result.result().body());
+                callback.complete(createCRUDResult(request,result.result().body()));
             }
         });
     }
@@ -101,6 +111,65 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         String addressee = CRUDRequest.class.getName() + (crudprovider != null && !"".equals(crudprovider) ? ("." + crudprovider) : "");
         logger.info("messageAddressee: " + addressee);
         return addressee;
+    }
+
+    public static <T> CRUDResult<T> createCRUDResult(CRUDRequest<T> request,Object result) {
+
+        // result either is a crud result or a string with a "raw" result, from which we need to create the result object
+        if (result instanceof CRUDResult) {
+            return (CRUDResult<T>) result;
+        } else {
+            logger.info(request.getOperation() + ": got a result string, will bring it to the format we expect, given the request: " + result);
+            CRUDResult<T> resultObj = new CRUDResult<T>();
+
+            if (request.getOperation() == CRUDRequest.Operation.READ) {
+                resultObj.setEntity(Json.decodeValue(String.valueOf(result), request.getEntityClass()));
+            }
+            else if (request.getOperation() == CRUDRequest.Operation.READALL) {
+                List<T> entities = new ArrayList<T>();
+                // TODO: currently, there is no straightforward way to simply convert a json array to a list of domain objects...
+                List objs = Json.decodeValue(String.valueOf(result), List.class);
+                resultObj.setEntityList(objs);
+            }
+            else if (request.getOperation() == CRUDRequest.Operation.CREATE) {
+                try {
+                    Long id = Long.parseLong(String.valueOf(result));
+                    try {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug(request.getOperation() + ": trying to set id: " + id);
+                        }
+                        request.getEntity().getClass().getMethod("setId", new Class[]{String.class}).invoke(request.getEntity(), id);
+                        resultObj.setEntity(request.getEntity());
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+                } catch (NumberFormatException nfe) {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(request.getOperation() + ": trying to set id: " + result);
+                    }
+                    try {
+                        request.getEntity().getClass().getMethod("set_id", new Class[]{String.class}).invoke(request.getEntity(), String.valueOf(result));
+                        resultObj.setEntity(request.getEntity());
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else {
+                    throw new RuntimeException("The CRUD operation " + request.getOperation() + " is not supported so far.");
+            }
+
+            return resultObj;
+        }
+
     }
 
 }

@@ -38,6 +38,11 @@
         </dependency>
         <dependency>
             <groupId>org.dieschnittstelle.esa.vertx</groupId>
+            <artifactId>esa-vertx-crud-njm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dieschnittstelle.esa.vertx</groupId>
             <artifactId>esa-vertx-crud-testentities</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

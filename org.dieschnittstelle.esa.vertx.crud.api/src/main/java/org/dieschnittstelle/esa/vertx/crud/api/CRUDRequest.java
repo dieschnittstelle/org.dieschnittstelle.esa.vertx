@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Created by master on 27.05.16.
  */
 public class CRUDRequest<T> {
+
+    private static EntityMarshaller marshaller = new EntityMarshaller(new JsonObjectEntityMarshallerDelegate());
 
     public enum Operation {
         CREATE, READALL, READ, UPDATE, DELETE;
@@ -133,6 +137,27 @@ public class CRUDRequest<T> {
 
     public void setEntityIdString(String entityIdString) {
         this.entityIdString = entityIdString;
+    }
+
+    public JsonObject toJsonObject() throws InvocationTargetException, IllegalAccessException {
+        // TODO: it is suboptimal to creare a marshaller for each instance we want
+        return ((JsonObject) marshaller.marshal(null, this, null)).getJsonObject("data");
+    }
+
+    public JsonObject toJsonObject(Object obj) throws InvocationTargetException, IllegalAccessException {
+        // TODO: it is suboptimal to creare a marshaller for each instance we want
+        return ((JsonObject) marshaller.marshal(null, obj, null)).getJsonObject("data");
+    }
+
+    /*
+     * we allow to create a result for sending back typed objects out of javascript verticles
+     */
+    public <T> CRUDResult<T> createResult() {
+        return new CRUDResult<T>();
+    }
+
+    public static Object unmarshal(String jsonString,Class klass) {
+        return Json.decodeValue(jsonString,klass);
     }
 
 }

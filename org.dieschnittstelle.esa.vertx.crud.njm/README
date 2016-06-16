@@ -1,0 +1,9 @@
+- overview: http://vertx.io/docs/vertx-core/js/#_writing_verticles
+
+- github: https://github.com/vert-x3/vertx-examples/blob/master/maven-verticles/maven-verticle-js/pom.xml
+
+- builtin mongodb client: http://vertx.io/docs/vertx-mongo-client/js/
+
+- neither with npm nor by loading a verticle from java it seems to be possible to use npm installed modules - i.e. vertx still does not seem to support npm
+
+- java objects can be passed to javascript verticles, attributes and methods can be accessed

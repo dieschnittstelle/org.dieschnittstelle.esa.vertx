@@ -13,6 +13,7 @@
         <module>../org.dieschnittstelle.esa.vertx.rpc</module>
         <module>../org.dieschnittstelle.esa.vertx.crud.jpa</module>
         <module>../org.dieschnittstelle.esa.vertx.crud.mongod</module>
+        <module>../org.dieschnittstelle.esa.vertx.crud.njm</module>
         <module>../org.dieschnittstelle.esa.vertx.crud.api</module>
         <module>../org.dieschnittstelle.esa.vertx.crud.testentities</module>
         <module>../org.dieschnittstelle.esa.vertx.main</module>

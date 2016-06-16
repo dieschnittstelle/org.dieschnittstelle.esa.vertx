@@ -26,7 +26,7 @@ public class MainVerticle extends AbstractVerticle {
 
         logger.info("start()");
 
-        vertx = Vertx.vertx();
+        vertx = getVertx();
 
         vertx.eventBus().registerDefaultCodec(CRUDRequest.class,new POJOMessageCodec(CRUDRequest.class));
         vertx.eventBus().registerDefaultCodec(CRUDResult.class,new POJOMessageCodec(CRUDResult.class));
@@ -34,14 +34,17 @@ public class MainVerticle extends AbstractVerticle {
         CRUDServiceVerticle serviceVerticle = new CRUDServiceVerticle();
         serviceVerticle.addClassMapping("touchpoints", StationaryTouchpointDoc.class);
 
-        vertx.deployVerticle(serviceVerticle, stringAsyncResult -> {
-            logger.info("start(): deployed CRUDServiceVerticle");
-            vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), new DeploymentOptions().setWorker(true), stringAsyncResult1 -> {
-                logger.info("start(): deployed CRUDVerticleHibernate");
-                vertx.deployVerticle(CRUDVerticleMongod.class.getName(), stringAsyncResult2 -> {
-                    logger.info("start(): deployed CRUDVerticleMongod");
-                    logger.info("start(): done.");
-                    fut.complete();
+        vertx.deployVerticle("js/CRUDVerticleJS.js",stringAsyncResult -> {
+            logger.info("start(): deployed CRUDVerticleJS");
+            vertx.deployVerticle(serviceVerticle, stringAsyncResult1 -> {
+                logger.info("start(): deployed CRUDServiceVerticle");
+                vertx.deployVerticle(CRUDVerticleHibernate.class.getName(), new DeploymentOptions().setWorker(true), stringAsyncResult3 -> {
+                    logger.info("start(): deployed CRUDVerticleHibernate");
+                    vertx.deployVerticle(CRUDVerticleMongod.class.getName(), stringAsyncResult2 -> {
+                        logger.info("start(): deployed CRUDVerticleMongod");
+                        logger.info("start(): done.");
+                        fut.complete();
+                    });
                 });
             });
         });

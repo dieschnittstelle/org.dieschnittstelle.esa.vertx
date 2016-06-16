@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.mongod/pom.xml" />
         <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.testentities/pom.xml" />
+        <option value="$PROJECT_DIR$/org.dieschnittstelle.esa.vertx.crud.njm/pom.xml" />
       </list>
     </option>
   </component>

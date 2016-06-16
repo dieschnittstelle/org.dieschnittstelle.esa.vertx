@@ -29,4 +29,8 @@ public class StationaryTouchpointDoc extends StationaryTouchpoint {
         this._id = _id;
     }
 
+    public String toString() {
+        return "{" + super.toString() + ", " + this._id + "}";
+    }
+
 }
