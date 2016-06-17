@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "training": true,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 10,
+      "duration": 20,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    }
+  ]
+}

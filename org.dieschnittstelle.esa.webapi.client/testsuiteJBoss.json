@@ -1,0 +1,148 @@
+{
+  "tests": [
+    {
+      "training": true,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 50,
+      "duration": 10000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": true,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 50,
+      "duration": 10000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 1,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 5,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 10,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 20,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 30,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 40,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 50,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStateless"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 1,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 5,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 10,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 20,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 30,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 40,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/org.dieschnittstelle.jee.esa.crudsample.webapp/api",
+      "numofThreads": 50,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "TouchpointCRUDStatelessMDB"
+    }
+  ]
+}
