@@ -1,10 +1,13 @@
 package org.dieschnittstelle.esa.webapi.client;
 
+import java.util.*;
+
 import org.apache.log4j.Logger;
 import org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc;
 import org.dieschnittstelle.jee.esa.entities.crm.Address;
 import org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -17,6 +20,13 @@ public class CRUDWebapiAccessorTest {
     private static int runnableId;
     private static int totalCount;
     private static int countdown;
+    private static List<Long> allResponseTimes = new ArrayList<Long>();
+
+    private static String baseUrl = /*"http://localhost:8080/api";*/"http://localhost:8080/org.dieschnittstelle.jee.esa.skeleton.webapp/api";
+    private static int numofThreads = 1;
+    private static long duration = 1000;
+    private static long pause = 1;
+    private static long startupPause = 1;
 
     private static long startTime;
 
@@ -25,12 +35,6 @@ public class CRUDWebapiAccessorTest {
     public static void main(String[] args) {
 
         // parameters and default values
-        String baseUrl = /*"http://localhost:8080/api";*/"http://localhost:8080/org.dieschnittstelle.jee.esa.skeleton.webapp/api";
-        int numofThreads = 1;
-        long duration = 1000;
-        long pause = 1;
-        long startupPause = 1;
-
         if (args.length > 0) {
             baseUrl = args[0];
         }
@@ -58,10 +62,11 @@ public class CRUDWebapiAccessorTest {
         startTime = System.currentTimeMillis();
 
         for (int i=0;i<numofThreads;i++) {
-            CRUDClientRunnable runnable = new CRUDClientRunnable(baseUrl,duration,pause,totalNum -> {
-                incrementTotalCount(totalNum);
+            CRUDClientRunnable runnable = new CRUDClientRunnable(baseUrl,duration,pause,(totalNum, responseTimes) -> {
+                incrementTotalCountAndResponseTimes(totalNum,responseTimes);
                 if (countdown == 0) {
                     System.out.println("DONE after " + totalCount + " runs.");
+                    calculateStatistics(allResponseTimes);
                 }
                 return null;
             });
@@ -76,9 +81,22 @@ public class CRUDWebapiAccessorTest {
 
     }
 
-    private static synchronized void incrementTotalCount(int count) {
+    public static void calculateStatistics (Collection<Long> collection) {
+
+        DoubleSummaryStatistics stats = collection
+                .stream()
+                .mapToDouble(a -> a)
+                .summaryStatistics();
+
+        System.out.println("\n\nSTATISTICS (count/average/max/min):\n" + stats.getCount() + "\t" + stats.getAverage() + "\t" + stats.getMax() + "\t" + stats.getMin()+ "\n\n"
+                /* second line for detail information, pastable to in excel */
+                + crudprovider + "\t" + numofThreads + "\t" + duration + "\t" + pause + "\t" + startupPause + "\t" + stats.getCount() + "\t" + ((int)stats.getAverage()) + "\t" + ((int)stats.getMax()) + "\t" + ((int)stats.getMin()) + "\t" + baseUrl);
+    }
+
+    private static synchronized void incrementTotalCountAndResponseTimes(int count,Collection<Long> responseTimes) {
         totalCount+=count;
         countdown--;
+        allResponseTimes.addAll(responseTimes);
     }
 
     private static class CRUDClientRunnable implements Runnable {
@@ -89,9 +107,10 @@ public class CRUDWebapiAccessorTest {
         private String baseUrl;
         private long duration;
         private long pause;
-        private Function<Integer,Void> doneCallback;
+        private BiFunction<Integer,List<Long>,Void> doneCallback;
+        List<Long> allResponseTimes = new ArrayList<Long>();
 
-        public CRUDClientRunnable(String baseUrl, long duration, long pause, Function<Integer,Void> doneCallback) {
+        public CRUDClientRunnable(String baseUrl, long duration, long pause, BiFunction<Integer,List<Long>,Void> doneCallback) {
             this.baseUrl = baseUrl;
             this.duration = duration;
             this.pause = pause;
@@ -109,7 +128,9 @@ public class CRUDWebapiAccessorTest {
 
                 logger.info("create tp: " + tp);
 
+                long currentCallTime = System.currentTimeMillis();
                 tp = accessor.create(tp,crudprovider);
+                allResponseTimes.add((System.currentTimeMillis()-currentCallTime));
 
 
                 logger.info("created: " + tp);
@@ -132,7 +153,7 @@ public class CRUDWebapiAccessorTest {
 
             }
 
-            doneCallback.apply(count);
+            doneCallback.apply(count,allResponseTimes);
         }
 
 

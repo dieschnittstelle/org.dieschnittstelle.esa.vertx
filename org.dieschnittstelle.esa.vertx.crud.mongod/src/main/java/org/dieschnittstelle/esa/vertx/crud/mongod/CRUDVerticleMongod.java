@@ -98,6 +98,8 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
             case READALL:
                 readAll(request, fut);
                 break;
+            case DELETEALL:
+                deleteAll(request,fut);
             default:
                 logger.error("cannot handle CRUDRequest with operation " + request.getOperation() + ". Operation is not yet supported");
         }
@@ -153,14 +155,17 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
 
                 } else {
                     res.cause().printStackTrace();
+                    fut.failed();
                 }
 
             });
 
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            fut.failed();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            fut.failed();
         }
     }
 
@@ -177,10 +182,12 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
                 if (logger.isDebugEnabled()) {
                     logger.debug("read obj for id " + request.getEntityIdString() + ": " + obj);
                 }
+                // TODO: we need a direct mapping from JsonObject to our domain object class - wonder why this does not seem to be available...
                 fut.complete(new CRUDResult<T>(Json.decodeValue(obj.encode(),request.getEntityClass())));
             } else {
 
                 res.cause().printStackTrace();
+                fut.failed();
 
             }
 
@@ -213,7 +220,30 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
             } else {
 
                 res.cause().printStackTrace();
+                fut.failed();
 
+            }
+
+        });
+
+    }
+
+    private void deleteAll(CRUDRequest request,Future<Object> fut) {
+        logger.info("deleteAll(): " + request.getEntityClass().getName());
+        JsonObject query = new JsonObject();
+
+        client.dropCollection(request.getEntityClass().getName(), res -> {
+
+            if (res.succeeded()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("deleteAll(): got result: " + res.result());
+                }
+
+                fut.complete();
+            } else {
+
+                res.cause().printStackTrace();
+                fut.failed();
             }
 
         });

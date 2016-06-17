@@ -16,6 +16,9 @@ function handleRequest(message) {
     var crudRequest= message.body();
     // we evaluate the operation attribute (which we  and dispatch to the appropriate crud operation
     switch(crudRequest.operation + "") {
+        case "SETUP":
+            setup(crudRequest,message);
+            break;
         case "READALL":
             readAll(crudRequest,message);
             break;
@@ -25,9 +28,12 @@ function handleRequest(message) {
         case "CREATE":
             create(crudRequest,message);
             break;
+        case "DELETEALL":
+            deleteAll(crudRequest,message);
+            break;
         default:
             console.error("cannot handle crud request with operation: " + crudRequest.operation);
-            message.reply();
+            message.reply(0);
     }
 }
 
@@ -42,7 +48,11 @@ vertx.eventBus().consumer(messageType + ".CRUDVerticleJS", handleRequest);
 function create(crudRequest,message) {
     console.log("CRUDVerticleJS: create()");
 
-    client.save(crudRequest.entity.getClass().getName(), JSON.parse(crudRequest.toJsonObject(crudRequest.entity).encode()), function (res, res_err) {
+    // this transformation of domain object to json string to json object is quite annoying...
+    var obj = JSON.parse(crudRequest.toJsonString(crudRequest.entity));
+    // we need to remove the _id attribute as otherwise no id might be assigned
+    delete obj._id;
+    client.save(crudRequest.entity.getClass().getName(), obj, function (res, res_err) {
 
         if (res_err == null) {
             var id = res;
@@ -50,7 +60,7 @@ function create(crudRequest,message) {
             message.reply(id);
         } else {
             res_err.printStackTrace();
-            message.reply();
+            message.reply("");
         }
 
     });
@@ -76,7 +86,7 @@ function readAll(crudRequest,message) {
             message.reply(JSON.stringify(res));
         } else {
             res_err.printStackTrace();
-            message.reply();
+            message.reply(0);
         }
     });
 }
@@ -98,11 +108,39 @@ function read(crudRequest,message) {
                 message.reply(JSON.stringify(res[0]));
             }
             else {
-                message.reply();
+                message.reply(0);
             }
         } else {
             res_err.printStackTrace();
+            message.reply(0);
+        }
+    });
+}
+
+function deleteAll(crudRequest,message) {
+    console.log("CRUDVerticleJS: deleteAll(): " + crudRequest.entityClass.getName());
+    client.dropCollection(crudRequest.entityClass.getName(), function (res, res_err) {
+        if (res_err == null) {
+            console.log("CRUDVerticleJS: deleteAll(): result: " + res);
+            message.reply(1);
+        } else {
+            res_err.printStackTrace();
             message.reply();
+        }
+    });
+    message.reply(1);
+}
+
+function setup(crudRequest,message) {
+    console.log("CRUDVerticleJS: setup(): " + crudRequest.entityClass.getName());
+
+    client.createCollection(crudRequest.entityClass.getName(), function (res, res_err) {
+        if (res_err == null) {
+            console.log("CRUDVerticleJS: setup(): result: " + res);
+            message.reply(1);
+        } else {
+            res_err.printStackTrace();
+            message.reply(0);
         }
     });
 }

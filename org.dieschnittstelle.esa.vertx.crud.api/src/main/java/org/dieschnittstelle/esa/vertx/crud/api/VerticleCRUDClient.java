@@ -1,6 +1,8 @@
 package org.dieschnittstelle.esa.vertx.crud.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.Future;
@@ -11,6 +13,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -23,6 +26,9 @@ import java.util.List;
 public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
 
     protected static Logger logger = Logger.getLogger(VerticleCRUDClient.class);
+
+    // we use a jackson object mapper - maybe we could centralise object mapper in some utilities singleton
+    protected static ObjectMapper mapper = new ObjectMapper();
 
     private Vertx vertx;
 
@@ -119,7 +125,7 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
         if (result instanceof CRUDResult) {
             return (CRUDResult<T>) result;
         } else {
-            logger.info(request.getOperation() + ": got a result string, will bring it to the format we expect, given the request: " + result);
+            logger.info(request.getOperation() + ": got a result string, will convert to the type we expect, given the request: " + result);
             CRUDResult<T> resultObj = new CRUDResult<T>();
 
             if (request.getOperation() == CRUDRequest.Operation.READ) {
@@ -127,9 +133,23 @@ public class VerticleCRUDClient<T> implements AsyncCRUDClient<T> {
             }
             else if (request.getOperation() == CRUDRequest.Operation.READALL) {
                 List<T> entities = new ArrayList<T>();
-                // TODO: currently, there is no straightforward way to simply convert a json array to a list of domain objects...
-                List objs = Json.decodeValue(String.valueOf(result), List.class);
-                resultObj.setEntityList(objs);
+                // TODO: currently, there is no straightforward way to simply convert a stringified json array to a list of domain objects... as we might not have the exact list type here...
+                try {
+                    // TODO: this is so terrible... what we would need is a list of still stringified json objects, i.e. a "shallow-parsed" result list
+                    ArrayNode jsonarr = mapper.readValue(String.valueOf(result), ArrayNode.class);
+                    for (JsonNode node : jsonarr) {
+                       entities.add(mapper.readValue(mapper.writeValueAsString(node),request.getEntityClass()));
+                    }
+                    resultObj.setEntityList(entities);
+                    return resultObj;
+                }
+                catch (Exception e) {
+                    logger.error("got exception trying to read entities for CRUDResult: " + e,e);
+                    return resultObj;
+                }
+
+//                List objs = Json.decodeValue(String.valueOf(result), List.class);
+//                resultObj.setEntityList(objs);
             }
             else if (request.getOperation() == CRUDRequest.Operation.CREATE) {
                 try {

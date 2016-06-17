@@ -1,9 +1,11 @@
 package org.dieschnittstelle.esa.vertx.crud.api;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -14,9 +16,14 @@ public class CRUDRequest<T> {
 
     private static EntityMarshaller marshaller = new EntityMarshaller(new JsonObjectEntityMarshallerDelegate());
 
+    /* setup will be used to prepare the data source (in js mongodb client collections will not be created on save, at least not by default) */
     public enum Operation {
-        CREATE, READALL, READ, UPDATE, DELETE;
+        CREATE, READALL, READ, UPDATE, DELETE, DELETEALL, SETUP;
     }
+
+    protected static Logger logger = Logger.getLogger(CRUDRequest.class);
+
+    protected static ObjectMapper mapper = new ObjectMapper();
 
     private T entity;
 
@@ -147,6 +154,16 @@ public class CRUDRequest<T> {
     public JsonObject toJsonObject(Object obj) throws InvocationTargetException, IllegalAccessException {
         // TODO: it is suboptimal to creare a marshaller for each instance we want
         return ((JsonObject) marshaller.marshal(null, obj, null)).getJsonObject("data");
+    }
+
+    public String toJsonString(Object obj) throws JsonProcessingException {
+        try {
+            return mapper.writeValueAsString(obj);
+        }
+        catch (JsonProcessingException e) {
+            logger.error("toJsonString(): got exception: " + e,e);
+            throw e;
+        }
     }
 
     /*
