@@ -27,7 +27,7 @@ public class CRUDWebapiTestRunner {
         private int errorCount;
 
         private int numofThreads = 1;
-        private long duration = 1000;
+        private long duration = 5;
         private long pause = 1;
         private long startupPause = 1;
         private String crudprovider = "CRUDVerticleHibernate";
@@ -284,6 +284,8 @@ public class CRUDWebapiTestRunner {
         }
 
         public void run() {
+            CRUDWebapiAccessorJAXRS accessor = new CRUDWebapiAccessorJAXRS("touchpoints", StationaryTouchpointDoc.class, baseUrl);
+            System.out.println("using accessor: " + accessor.getClass());
 
             long startTime = System.currentTimeMillis();
 
@@ -291,8 +293,6 @@ public class CRUDWebapiTestRunner {
 
                 try {
                     StationaryTouchpointDoc tp = new StationaryTouchpointDoc(-1, "dorem", new Address("lipsum", "-42", "olor", "adispiscing"));
-
-                    CRUDWebapiAccessor<StationaryTouchpointDoc> accessor = new CRUDWebapiAccessor<StationaryTouchpointDoc>("touchpoints", StationaryTouchpointDoc.class, baseUrl);
 
                     logger.info("create tp: " + tp);
 

@@ -1,0 +1,148 @@
+{
+  "tests": [
+    {
+      "training": true,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 50,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": true,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 50,
+      "duration": 10000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 1,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 5,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 10,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 20,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 30,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 40,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 50,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleHibernate"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 1,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 5,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 10,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 20,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 30,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 40,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    },
+    {
+      "training": false,
+      "baseUrl": "http://localhost:8080/api",
+      "numofThreads": 50,
+      "duration": 1000,
+      "pause": 1,
+      "startupPause": 1,
+      "crudprovider": "CRUDVerticleMongod"
+    }
+  ]
+}
