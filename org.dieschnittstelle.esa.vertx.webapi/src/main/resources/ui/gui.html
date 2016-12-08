@@ -51,7 +51,7 @@ function createTouchpoint(createForm) {
 	touchpoint.location.houseNr = createForm.houseNr.value;
 	touchpoint.location.zipCode = createForm.zipCode.value;
 	touchpoint.location.city = createForm.city.value;
-	touchpoint["@class"] = "org.dieschnittstelle.jee.esa.entities.crm.StationaryTouchpoint";
+	touchpoint["@class"] = "org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc";
 
 	//alert("createdTouchpoint: " + JSON.stringify(touchpoint));
 
