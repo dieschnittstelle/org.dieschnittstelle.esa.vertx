@@ -13,7 +13,7 @@
 		<class>org.dieschnittstelle.jee.esa.entities.crm.Location</class>
 		<class>org.dieschnittstelle.jee.esa.entities.crm.Customer</class>
 		<class>org.dieschnittstelle.jee.esa.entities.crm.CustomerTransaction</class>
-		<class>org.dieschnittstelle.jee.esa.entities.crm.CrmProductBundle</class>
+		<class>org.dieschnittstelle.jee.esa.entities.crm.ShoppingCartItem</class>
 		<class>org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc</class>
 
 		<properties>
