@@ -46,11 +46,11 @@ function createTouchpoint(createForm) {
 
 	var touchpoint = new Object();
 	touchpoint.name = createForm.name.value;
-	touchpoint.location = new Object();
-	touchpoint.location.street = createForm.street.value;
-	touchpoint.location.houseNr = createForm.houseNr.value;
-	touchpoint.location.zipCode = createForm.zipCode.value;
-	touchpoint.location.city = createForm.city.value;
+	touchpoint.address = new Object();
+	touchpoint.address.street = createForm.street.value;
+	touchpoint.address.houseNr = createForm.houseNr.value;
+	touchpoint.address.zipCode = createForm.zipCode.value;
+	touchpoint.address.city = createForm.city.value;
 	touchpoint["@class"] = "org.dieschnittstelle.esa.vertx.crud.testentities.StationaryTouchpointDoc";
 
 	//alert("createdTouchpoint: " + JSON.stringify(touchpoint));
@@ -192,19 +192,19 @@ function drawTouchpointsTable() {
 			// street
 			td= document.createElement("td");
 			tr.appendChild(td);
-			td.appendChild(document.createTextNode(currentTouchpoint.location.street));
+			td.appendChild(document.createTextNode(currentTouchpoint.address.street));
 			// houseNr
 			td = document.createElement("td");
 			tr.appendChild(td);
-			td.appendChild(document.createTextNode(currentTouchpoint.location.houseNr));
+			td.appendChild(document.createTextNode(currentTouchpoint.address.houseNr));
 			// zipCode
 			td = document.createElement("td");
 			tr.appendChild(td);
-			td.appendChild(document.createTextNode(currentTouchpoint.location.zipCode));
+			td.appendChild(document.createTextNode(currentTouchpoint.address.zipCode));
 			// city
 			td = document.createElement("td");
 			tr.appendChild(td);
-			td.appendChild(document.createTextNode(currentTouchpoint.location.city));			
+			td.appendChild(document.createTextNode(currentTouchpoint.address.city));
 
 			// now create the delete form
 			td = document.createElement("td");
