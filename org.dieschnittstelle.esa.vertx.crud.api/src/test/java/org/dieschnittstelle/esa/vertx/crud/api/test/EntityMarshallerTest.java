@@ -62,7 +62,7 @@ public class EntityMarshallerTest {
             logger.info("unmarshalled: " + unmarshalled);
 
             assertEquals(tp.getName(),unmarshalled.getName());
-            assertEquals(tp.getLocation().getStreet(),unmarshalled.getLocation().getStreet());
+            assertEquals(tp.getAddress().getStreet(),unmarshalled.getAddress().getStreet());
         }
         catch (Exception e) {
             e.printStackTrace();
