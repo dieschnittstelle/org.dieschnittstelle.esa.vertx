@@ -6,10 +6,25 @@ console.log("starting verticle...");
 var Vertx = require("vertx-js/vertx");
 
 // the vertx instance we are started on is available via the global variable vertx
-console.log("VerticleCRUDJS is running!!! vertx is: " + vertx);
+console.log("VerticleCRUDJS is running now!!! vertx is: " + vertx);
 
 var MongoClient = require("vertx-mongo-js/mongo_client");
-var client = MongoClient.createShared(vertx, {});
+
+// we need to create the config here
+var ipAddress = process.env.MONGODB_PORT_27017_TCP_ADDR;
+if (!ipAddress) {
+    ipAddress = "localhost";
+}
+console.log("VerticleCRUDJS: ipAddress for MongoDB: " + ipAddress);
+var connectionString = "mongodb://" + ipAddress + ":27017";
+var config = {
+    connection_string: connectionString,
+    port: 27017,
+    host: ipAddress,
+    db_name: "crm_erp_db"
+}
+
+var client = MongoClient.createShared(vertx, config);
 console.log("MongoClient: " + client);
 
 function handleRequest(message) {

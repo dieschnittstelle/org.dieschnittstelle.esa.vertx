@@ -46,10 +46,14 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
         logger.info("using connectionUrl: " + connectionUrl);
 
         JsonObject config = new JsonObject()
+                        .put("port",27017)
+                        .put("host",ipAddress)
                         .put("http.port", 28017)
                         .put("db_name", "crm_erp_db")
                         .put("connection_string",
                                 connectionUrl);
+
+        logger.info("create client using config: " + config);
 
         client = MongoClient.createShared(vertx, config);
         marshaller = new EntityMarshaller(new JsonObjectEntityMarshallerDelegate());
