@@ -57,6 +57,21 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.5.Final</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>5.3.3.Final</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-entitymanager</artifactId>-->
+            <!--<version>5.3.3.Final</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-validator</artifactId>-->
+            <!--<version>6.0.11.Final</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.dieschnittstelle.esa.vertx</groupId>
             <artifactId>esa-vertx-crud-api</artifactId>

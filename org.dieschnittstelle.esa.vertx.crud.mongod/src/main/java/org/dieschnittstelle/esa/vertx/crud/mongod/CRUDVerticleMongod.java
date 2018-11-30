@@ -83,6 +83,8 @@ public class CRUDVerticleMongod<T> extends AbstractVerticle {
 
         vertx.eventBus().consumer(CRUDRequest.class.getName(), myHandler);
         vertx.eventBus().consumer(CRUDRequest.class.getName()+"."+CRUDVerticleMongod.class.getSimpleName(), myHandler);
+        // we take over the requests to the hibernate verticle as the latter shows issues with jpa...
+//        vertx.eventBus().consumer(CRUDRequest.class.getName()+"."+"CRUDVerticleHibernate",myHandler);
 
         logger.info("registered handler");
 
